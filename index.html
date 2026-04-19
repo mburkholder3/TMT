@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Consciousness Elevation Alliance</title>
+  <meta name="description" content="Consciousness Elevation Alliance - elevating human awareness through conscious systems, healing education, and ethical innovation." />
+  <meta name="robots" content="index,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&amp;family=Jost:wght@200;300;400&amp;display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-black: #00000c;
+      --space-purple: #0c0720;
+      --section-bg: #080612;
+      --text-soft: rgba(238, 234, 255, 0.84);
+      --text-dim: rgba(239, 235, 255, 0.58);
+      --label-purple: rgba(208, 178, 255, 0.74);
+      --line-soft: rgba(168, 122, 242, 0.36);
+      --tooltip-bg: rgba(6, 3, 18, 0.92);
+      --tooltip-border: rgba(162, 111, 245, 0.72);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: #f7f5ff;
+      font-family: "Jost", "Segoe UI", sans-serif;
+      font-weight: 300;
+      background: var(--space-black);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(38, 20, 70, 0.62) 0%, rgba(16, 8, 35, 0.48) 24%, rgba(0, 0, 12, 0) 56%),
+        radial-gradient(circle at 15% 82%, rgba(30, 8, 50, 0.2) 0%, rgba(0, 0, 12, 0) 44%),
+        linear-gradient(180deg, var(--space-purple) 0%, var(--space-black) 74%);
+      isolation: isolate;
+    }
+
+    .hero-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 1;
+    }
+
+    .hero-logo {
+      position: absolute;
+      left: clamp(0.9rem, 2.4vw, 1.7rem);
+      top: clamp(0.9rem, 2.2vw, 1.5rem);
+      width: clamp(74px, 10vw, 116px);
+      height: auto;
+      z-index: 7;
+      filter:
+        drop-shadow(0 0 10px rgba(170, 120, 255, 0.36))
+        drop-shadow(0 8px 22px rgba(0, 0, 0, 0.5));
+      opacity: 0.9;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    #stars circle {
+      fill: #ffffff;
+    }
+
+    .star-twinkle {
+      animation: twinkle 5.2s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%,
+      100% {
+        opacity: 0.28;
+      }
+      50% {
+        opacity: 0.94;
+      }
+    }
+
+    .zone {
+      cursor: pointer;
+      outline: none;
+    }
+
+    .zone-hit {
+      fill: rgba(255, 255, 255, 0.001);
+      pointer-events: all;
+    }
+
+    .zone-ring {
+      fill: none;
+      stroke: var(--zone-color, #ffffff);
+      stroke-width: 2;
+      stroke-dasharray: 5 6;
+      opacity: 0;
+      transition: opacity 240ms ease;
+      pointer-events: none;
+    }
+
+    .zone-label {
+      font-family: "Jost", "Segoe UI", sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.24em;
+      fill: var(--zone-color, #ffffff);
+      opacity: 0;
+      transition: opacity 240ms ease;
+      pointer-events: none;
+      text-transform: uppercase;
+      text-anchor: middle;
+    }
+
+    .zone.is-active .zone-ring,
+    .zone.is-active .zone-label,
+    .zone:hover .zone-ring,
+    .zone:hover .zone-label,
+    .zone:focus-visible .zone-ring,
+    .zone:focus-visible .zone-label {
+      opacity: 0.95;
+    }
+
+    .zone-tooltip {
+      position: absolute;
+      z-index: 5;
+      width: min(280px, calc(100vw - 2rem));
+      padding: 0.72rem 0.85rem 0.86rem;
+      border-radius: 12px;
+      border: 1px solid var(--tooltip-border);
+      background: var(--tooltip-bg);
+      box-shadow:
+        0 0 0 1px rgba(232, 214, 255, 0.08),
+        0 14px 34px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(-9999px, -9999px, 0);
+      transition: opacity 190ms ease;
+    }
+
+    .zone-tooltip.is-visible {
+      opacity: 1;
+    }
+
+    .zone-tooltip-title {
+      margin: 0;
+      color: #ead5ff;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .zone-tooltip-copy {
+      margin: 0.42rem 0 0;
+      color: var(--text-soft);
+      font-size: 0.94rem;
+      line-height: 1.4;
+    }
+
+    .branch-pills {
+      position: absolute;
+      left: 50%;
+      top: 44%;
+      width: min(920px, 100%);
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .branch-pill {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(8, 5, 20, 0.86);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      pointer-events: auto;
+      transition:
+        transform 210ms ease,
+        box-shadow 210ms ease,
+        border-color 210ms ease;
+    }
+
+    .branch-pill:hover,
+    .branch-pill:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(43, 26, 72, 0.42);
+      outline: none;
+    }
+
+    .pill-tmt {
+      left: 24%;
+      top: 30%;
+      border: 1px solid rgba(85, 204, 85, 0.88);
+      color: #abf3ab;
+    }
+
+    .pill-left-soon {
+      left: 20%;
+      top: 46%;
+      border: 1px solid rgba(174, 117, 255, 0.8);
+      color: #dbc4ff;
+    }
+
+    .pill-leadership {
+      right: 22%;
+      top: 32%;
+      border: 1px solid rgba(221, 170, 68, 0.9);
+      color: #f2d599;
+    }
+
+    .pill-right-soon {
+      right: 19%;
+      top: 48%;
+      border: 1px solid rgba(174, 117, 255, 0.8);
+      color: #dbc4ff;
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1.5rem, 5vw, 3.2rem);
+      width: min(900px, calc(100vw - 2rem));
+      text-align: center;
+      transform: translateX(-50%);
+      z-index: 4;
+    }
+
+    .hero-kicker {
+      margin: 0;
+      color: rgba(238, 232, 255, 0.76);
+      font-size: 0.73rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin: 0.46rem 0 0;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5.4vw, 2.7rem);
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      line-height: 1.05;
+    }
+
+    .hero-title-accent {
+      color: #d4bbff;
+    }
+
+    .hero-hint {
+      margin: 0.48rem 0 0;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      text-transform: lowercase;
+    }
+
+    .mobile-tree-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 6;
+      padding: 0.8rem 0.8rem 1rem;
+      background: linear-gradient(180deg, rgba(0, 0, 12, 0), rgba(0, 0, 12, 0.84) 28%, rgba(0, 0, 12, 0.92) 100%);
+      overflow-x: auto;
+      gap: 0.6rem;
+      justify-content: flex-start;
+      scrollbar-width: thin;
+    }
+
+    .mobile-tree-menu a {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(186, 136, 255, 0.62);
+      background: rgba(10, 5, 22, 0.88);
+      color: #e4ccff;
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      background: var(--section-bg);
+    }
+
+    .content-section {
+      position: relative;
+      padding: clamp(3.6rem, 8vw, 6.6rem) 1.25rem clamp(3.2rem, 7vw, 6rem);
+      border-top: 1px solid rgba(130, 88, 201, 0.24);
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 560ms ease,
+        transform 560ms ease;
+    }
+
+    .content-section::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: min(760px, calc(100vw - 2rem));
+      height: 1px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, rgba(182, 128, 255, 0), rgba(182, 128, 255, 0.42), rgba(182, 128, 255, 0));
+    }
+
+    .content-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      margin: 0;
+      color: var(--label-purple);
+      font-size: 0.74rem;
+      font-weight: 300;
+      letter-spacing: 0.21em;
+      text-transform: uppercase;
+    }
+
+    .section-heading {
+      margin: 0.48rem 0 0;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-size: clamp(2rem, 4.1vw, 2.65rem);
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: #f7f2ff;
+      line-height: 1.08;
+    }
+
+    .section-copy {
+      margin: 1rem auto 0;
+      color: var(--text-soft);
+      max-width: 42rem;
+      font-size: clamp(1.02rem, 2.2vw, 1.14rem);
+      line-height: 1.68;
+    }
+
+    .products-grid {
+      margin-top: 1.65rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      text-align: left;
+    }
+
+    .product-card {
+      border: 1px solid rgba(157, 108, 234, 0.42);
+      background: rgba(9, 5, 21, 0.78);
+      border-radius: 14px;
+      padding: 1rem 1rem 1.08rem;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 10px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    .product-card h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", "Times New Roman", serif;
+      font-weight: 400;
+      color: #f2e4ff;
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+
+    .product-card p {
+      margin: 0.58rem 0 0;
+      color: rgba(236, 230, 255, 0.84);
+      font-size: 0.97rem;
+      line-height: 1.5;
+    }
+
+    .product-link {
+      display: inline-block;
+      margin-top: 0.66rem;
+      color: #caa1ff;
+      font-size: 0.76rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-bottom: 1px dashed rgba(206, 161, 255, 0.54);
+      padding-bottom: 0.1rem;
+    }
+
+    .contact-link {
+      color: #e0bbff;
+      border-bottom: 1px dashed rgba(224, 187, 255, 0.68);
+    }
+
+    footer {
+      background: var(--space-black);
+      border-top: 1px solid rgba(117, 74, 191, 0.32);
+      padding: 1rem 1.2rem 1.2rem;
+    }
+
+    .footer-inner {
+      max-width: 940px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: rgba(236, 229, 255, 0.72);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-inner a {
+      color: #d8b6ff;
+    }
+
+    @media (max-width: 980px) {
+      .branch-pills {
+        top: 43%;
+      }
+
+      .pill-tmt {
+        left: 18%;
+      }
+
+      .pill-left-soon {
+        left: 12%;
+      }
+
+      .pill-leadership {
+        right: 16%;
+      }
+
+      .pill-right-soon {
+        right: 11%;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .mobile-tree-menu {
+        display: flex;
+      }
+
+      .branch-pills {
+        display: none;
+      }
+
+      .zone-tooltip {
+        display: none;
+      }
+
+      .zone {
+        pointer-events: none;
+      }
+
+      .hero-copy {
+        bottom: 5.5rem;
+      }
+
+      .hero-title {
+        font-size: clamp(1.7rem, 8vw, 2.2rem);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .star-twinkle,
+      .content-section,
+      .zone-ring,
+      .zone-label,
+      .branch-pill,
+      .zone-tooltip {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="top" aria-label="Consciousness tree navigation">
+    <img class="hero-logo" src="CEA_logo.png" alt="Consciousness Elevation Alliance logo" />
+    <svg class="hero-svg" viewBox="0 0 1200 900" role="img" aria-label="Cosmic tree representing Consciousness Elevation Alliance">
+      <defs>
+        <linearGradient id="beam-gradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.88" />
+          <stop offset="0.36" stop-color="#ffffff" stop-opacity="0.42" />
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="earth-gradient" cx="50%" cy="35%" r="72%">
+          <stop offset="0" stop-color="#351a52" stop-opacity="0.68" />
+          <stop offset="0.52" stop-color="#1a0d30" stop-opacity="0.88" />
+          <stop offset="1" stop-color="#080310" stop-opacity="0.98" />
+        </radialGradient>
+        <linearGradient id="horizon-gradient" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ff3f57" stop-opacity="0" />
+          <stop offset="0.2" stop-color="#ff5a62" stop-opacity="0.44" />
+          <stop offset="0.5" stop-color="#ff5867" stop-opacity="0.86" />
+          <stop offset="0.8" stop-color="#ff5a62" stop-opacity="0.44" />
+          <stop offset="1" stop-color="#ff3f57" stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="crown-gradient" cx="50%" cy="52%" r="62%">
+          <stop offset="0" stop-color="#f7ebff" stop-opacity="0.98" />
+          <stop offset="0.36" stop-color="#b08fff" stop-opacity="0.86" />
+          <stop offset="0.72" stop-color="#6ca8ff" stop-opacity="0.68" />
+          <stop offset="1" stop-color="#6f5cff" stop-opacity="0" />
+        </radialGradient>
+        <filter id="soft-blur" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="10" />
+        </filter>
+        <filter id="orb-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="tree-image-glow" x="-28%" y="-35%" width="156%" height="190%">
+          <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#29ceff" flood-opacity="0.36" />
+          <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#ff4358" flood-opacity="0.28" />
+        </filter>
+      </defs>
+
+      <g id="stars"></g>
+
+      <path d="M575 0 L625 0 L650 280 L550 280 Z" fill="url(#beam-gradient)" />
+      <ellipse cx="600" cy="760" rx="680" ry="290" fill="url(#earth-gradient)" filter="url(#soft-blur)" />
+      <path d="M40 560 Q600 515 1160 560" stroke="url(#horizon-gradient)" stroke-width="4" fill="none" filter="url(#soft-blur)" />
+      <path d="M40 560 Q600 515 1160 560" stroke="url(#horizon-gradient)" stroke-width="1.6" fill="none" />
+
+      <g id="hero-tree" aria-hidden="true">
+        <image href="tree_reference_only.png" x="110" y="154" width="980" height="540" preserveAspectRatio="xMidYMid meet" filter="url(#tree-image-glow)" />
+      </g>
+
+      <circle cx="600" cy="176" r="17" fill="#f5ebff" filter="url(#orb-glow)" />
+      <circle cx="600" cy="176" r="52" fill="url(#crown-gradient)" opacity="0.9" filter="url(#soft-blur)" />
+
+      <g class="zone" data-target="vision" data-title="Vision" data-description="The purple canopy holds CEA's highest view of awakened systems and collective flourishing." style="--zone-color:#cc99ff" tabindex="0" role="button" aria-label="Open Vision section">
+        <ellipse class="zone-hit" cx="600" cy="258" rx="224" ry="154" />
+        <ellipse class="zone-ring" cx="600" cy="258" rx="234" ry="164" />
+        <text class="zone-label" x="600" y="128">Vision</text>
+      </g>
+
+      <g class="zone" data-target="about" data-title="About" data-description="The trunk carries steady white light from crown to roots, grounding CEA's foundation." style="--zone-color:#ffaa33" tabindex="0" role="button" aria-label="Open About section">
+        <rect class="zone-hit" x="556" y="316" width="88" height="286" rx="44" />
+        <rect class="zone-ring" x="548" y="308" width="104" height="302" rx="52" />
+        <text class="zone-label" x="600" y="456">About</text>
+      </g>
+
+      <g class="zone" data-target="products" data-title="Products" data-description="The left branch represents living products like ThinkMyThought and emerging initiatives." style="--zone-color:#55cc55" tabindex="0" role="button" aria-label="Open Products section">
+        <ellipse class="zone-hit" cx="448" cy="330" rx="178" ry="126" />
+        <ellipse class="zone-ring" cx="448" cy="330" rx="188" ry="136" />
+        <text class="zone-label" x="356" y="238">Products</text>
+      </g>
+
+      <g class="zone" data-target="leadership" data-title="Leadership" data-description="The right branch reflects leadership, stewardship, and aligned guidance." style="--zone-color:#ddaa44" tabindex="0" role="button" aria-label="Open Leadership section">
+        <ellipse class="zone-hit" cx="752" cy="330" rx="178" ry="126" />
+        <ellipse class="zone-ring" cx="752" cy="330" rx="188" ry="136" />
+        <text class="zone-label" x="842" y="238">Leadership</text>
+      </g>
+
+      <g class="zone" data-target="mission" data-title="Mission" data-description="The roots map how consciousness spreads outward through healing, family, and culture." style="--zone-color:#ff6633" tabindex="0" role="button" aria-label="Open Mission section">
+        <ellipse class="zone-hit" cx="600" cy="694" rx="372" ry="126" />
+        <ellipse class="zone-ring" cx="600" cy="694" rx="386" ry="138" />
+        <text class="zone-label" x="600" y="750">Mission</text>
+      </g>
+    </svg>
+
+    <div class="branch-pills" aria-label="Branch initiatives">
+      <a class="branch-pill pill-tmt" href="https://thinkmythought.com" target="_blank" rel="noopener noreferrer">ThinkMyThought</a>
+      <span class="branch-pill pill-left-soon">Coming Soon</span>
+      <a class="branch-pill pill-leadership" href="#leadership">Leadership</a>
+      <span class="branch-pill pill-right-soon">Coming Soon</span>
+    </div>
+
+    <div class="zone-tooltip" id="zone-tooltip" aria-hidden="true">
+      <p class="zone-tooltip-title" id="zone-tooltip-title"></p>
+      <p class="zone-tooltip-copy" id="zone-tooltip-copy"></p>
+    </div>
+
+    <div class="hero-copy">
+      <p class="hero-kicker">Consciousness Elevation Alliance</p>
+      <h1 class="hero-title">Elevating <span class="hero-title-accent">Human</span> Awareness</h1>
+      <p class="hero-hint">explore the tree - each part is a path</p>
+    </div>
+
+    <nav class="mobile-tree-menu" aria-label="Section navigation">
+      <a href="#vision">Vision</a>
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#mission">Mission</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </section>
+
+  <main>
+    <section class="content-section reveal" id="vision">
+      <div class="section-inner">
+        <p class="section-label">Vision</p>
+        <h2 class="section-heading">A Planetary Culture of Coherent Awareness</h2>
+        <p class="section-copy">
+          CEA envisions a future where technology, education, and creativity are designed to keep people centered rather than fragmented. We are building language, tools, and communities that support conscious evolution at both personal and collective scales.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section reveal" id="about">
+      <div class="section-inner">
+        <p class="section-label">About</p>
+        <h2 class="section-heading">Consciousness Elevation Alliance</h2>
+        <p class="section-copy">
+          The Alliance serves as an interdisciplinary platform exploring the relationship between human inner development and the systems we create. Our work connects ethical AI, healing-centered education, and intentional leadership to cultivate durable well-being.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section reveal" id="products">
+      <div class="section-inner">
+        <p class="section-label">Products</p>
+        <h2 class="section-heading">Initiatives on the Branches</h2>
+        <p class="section-copy">
+          CEA initiatives are designed as living pathways that help individuals and families move from reactivity into wholeness, imagination, and actionable insight.
+        </p>
+        <div class="products-grid">
+          <article class="product-card">
+            <h3>ThinkMyThought (TMT)</h3>
+            <p>
+              A consciousness-centered AI space that helps people remain centered while shaping and growing their ideas with clarity.
+            </p>
+            <a class="product-link" href="https://thinkmythought.com" target="_blank" rel="noopener noreferrer">Visit ThinkMyThought</a>
+          </article>
+          <article class="product-card">
+            <h3>Cradles to Concious Creators (CCC)</h3>
+            <p>
+              A parent-child course focused on healing, relational growth, and living from a grounded state of creativity and wholeness.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section reveal" id="leadership">
+      <div class="section-inner">
+        <p class="section-label">Leadership</p>
+        <h2 class="section-heading">Stewardship with Integrity</h2>
+        <p class="section-copy">
+          CEA leadership is oriented around ethical responsibility, long-term systems thinking, and care for the social impacts of every initiative. Our guiding principle is simple: consciousness must remain at the center of innovation.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section reveal" id="mission">
+      <div class="section-inner">
+        <p class="section-label">Mission</p>
+        <h2 class="section-heading">From Root to Horizon</h2>
+        <p class="section-copy">
+          Our mission is to seed practices, products, and educational experiences that spread like healthy mycelium: quietly, intelligently, and regeneratively. We support people in healing and creating from an integrated inner state that benefits the wider world.
+        </p>
+      </div>
+    </section>
+
+    <section class="content-section reveal" id="contact">
+      <div class="section-inner">
+        <p class="section-label">Contact</p>
+        <h2 class="section-heading">Connect with the Alliance</h2>
+        <p class="section-copy">
+          For collaboration, speaking, and partnership inquiries, email
+          <a class="contact-link" href="mailto:hello@consciousnesselevationalliance.org">hello@consciousnesselevationalliance.org</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Consciousness Elevation Alliance</span>
+      <span id="footer-year"></span>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const starsGroup = document.getElementById("stars");
+      const tooltip = document.getElementById("zone-tooltip");
+      const tooltipTitle = document.getElementById("zone-tooltip-title");
+      const tooltipCopy = document.getElementById("zone-tooltip-copy");
+      const zones = Array.from(document.querySelectorAll(".zone"));
+      const pulseRoots = Array.from(document.querySelectorAll(".pulse-root"));
+      const revealSections = Array.from(document.querySelectorAll(".reveal"));
+      const footerYear = document.getElementById("footer-year");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      footerYear.textContent = "Copyright " + new Date().getFullYear();
+
+      const starCount = window.matchMedia("(max-width: 700px)").matches ? 88 : 145;
+      for (let i = 0; i < starCount; i += 1) {
+        const star = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        const x = Math.random() * 1200;
+        const y = Math.random() * 570;
+        const r = 0.5 + Math.random() * 1.9;
+        const opacity = 0.22 + Math.random() * 0.7;
+        star.setAttribute("cx", x.toFixed(2));
+        star.setAttribute("cy", y.toFixed(2));
+        star.setAttribute("r", r.toFixed(2));
+        star.setAttribute("opacity", opacity.toFixed(2));
+        if (i % 8 === 0) {
+          star.classList.add("star-twinkle");
+          star.style.animationDelay = (Math.random() * 4).toFixed(2) + "s";
+          star.style.animationDuration = (3.6 + Math.random() * 4.4).toFixed(2) + "s";
+        }
+        starsGroup.appendChild(star);
+      }
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function showTooltip(zone, x, y) {
+        if (window.matchMedia("(max-width: 860px)").matches) {
+          return;
+        }
+        tooltipTitle.textContent = zone.dataset.title || "";
+        tooltipCopy.textContent = zone.dataset.description || "";
+        const tooltipWidth = tooltip.offsetWidth || 280;
+        const tooltipHeight = tooltip.offsetHeight || 92;
+        const offset = 16;
+        const left = clamp(x + offset, 8, window.innerWidth - tooltipWidth - 8);
+        const top = clamp(y - tooltipHeight - offset, 8, window.innerHeight - tooltipHeight - 8);
+        tooltip.style.transform = "translate3d(" + left + "px," + top + "px,0)";
+        tooltip.classList.add("is-visible");
+        tooltip.setAttribute("aria-hidden", "false");
+      }
+
+      function hideTooltip() {
+        tooltip.classList.remove("is-visible");
+        tooltip.setAttribute("aria-hidden", "true");
+      }
+
+      function getZoneCenter(zone) {
+        const box = zone.getBoundingClientRect();
+        return {
+          x: box.left + box.width / 2,
+          y: box.top + box.height / 2
+        };
+      }
+
+      function activateZone(zone) {
+        zones.forEach((entry) => entry.classList.remove("is-active"));
+        zone.classList.add("is-active");
+      }
+
+      function resetZone() {
+        zones.forEach((entry) => entry.classList.remove("is-active"));
+      }
+
+      function scrollToTarget(id) {
+        const target = document.getElementById(id);
+        if (!target) {
+          return;
+        }
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      zones.forEach((zone) => {
+        zone.addEventListener("mouseenter", (event) => {
+          activateZone(zone);
+          showTooltip(zone, event.clientX, event.clientY);
+        });
+
+        zone.addEventListener("mousemove", (event) => {
+          showTooltip(zone, event.clientX, event.clientY);
+        });
+
+        zone.addEventListener("mouseleave", () => {
+          resetZone();
+          hideTooltip();
+        });
+
+        zone.addEventListener("focus", () => {
+          activateZone(zone);
+          const center = getZoneCenter(zone);
+          showTooltip(zone, center.x, center.y);
+        });
+
+        zone.addEventListener("blur", () => {
+          resetZone();
+          hideTooltip();
+        });
+
+        zone.addEventListener("click", (event) => {
+          event.preventDefault();
+          scrollToTarget(zone.dataset.target);
+        });
+
+        zone.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            scrollToTarget(zone.dataset.target);
+          }
+        });
+      });
+
+      document.querySelectorAll("a[href^='#']").forEach((anchor) => {
+        anchor.addEventListener("click", (event) => {
+          const id = anchor.getAttribute("href").slice(1);
+          if (!id) {
+            return;
+          }
+          const target = document.getElementById(id);
+          if (!target) {
+            return;
+          }
+          event.preventDefault();
+          scrollToTarget(id);
+        });
+      });
+
+      if (!reduceMotion && pulseRoots.length) {
+        const animatePulse = (timestamp) => {
+          const base = 0.36 + Math.sin(timestamp / 980) * 0.15 + Math.sin(timestamp / 2700) * 0.07;
+          pulseRoots.forEach((root, index) => {
+            const variation = Math.sin(timestamp / 830 + index * 0.62) * 0.1;
+            const value = clamp(base + variation, 0.18, 0.82);
+            root.style.opacity = value.toFixed(3);
+          });
+          window.requestAnimationFrame(animatePulse);
+        };
+        window.requestAnimationFrame(animatePulse);
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries, entryObserver) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                entryObserver.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.2,
+            rootMargin: "0px 0px -5% 0px"
+          }
+        );
+        revealSections.forEach((section) => observer.observe(section));
+      } else {
+        revealSections.forEach((section) => section.classList.add("is-visible"));
+      }
+
+      if (reduceMotion) {
+        revealSections.forEach((section) => section.classList.add("is-visible"));
+      }
+    })();
+  </script>
+</body>
+</html>
