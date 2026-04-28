@@ -472,6 +472,7 @@
 <body>
   <nav class="cea-nav" aria-label="Primary">
     <ul>
+      <li><a href="#top">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#initiatives">Initiatives</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -700,39 +701,86 @@
       const navById = new Map(
         navAnchors.map((a) => [a.getAttribute("href").slice(1), a])
       );
+      const homeAnchor = navById.get("top") || null;
+
+      if (homeAnchor) {
+        homeAnchor.addEventListener("click", (event) => {
+          event.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: reduceMotion ? "auto" : "smooth"
+          });
+        });
+      }
+
       const navSections = navAnchors
+        .filter((a) => a !== homeAnchor)
         .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
         .filter(Boolean);
 
-      if ("IntersectionObserver" in window && navSections.length) {
+      if (navSections.length) {
         const ratios = new Map(navSections.map((s) => [s.id, 0]));
-        const navObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              ratios.set(entry.target.id, entry.intersectionRatio);
-            });
-            let bestId = null;
-            let bestRatio = 0;
-            ratios.forEach((ratio, id) => {
-              if (ratio > bestRatio) {
-                bestRatio = ratio;
-                bestId = id;
-              }
-            });
-            navAnchors.forEach((a) => a.classList.remove("is-active"));
-            if (bestId && bestRatio > 0) {
-              const active = navById.get(bestId);
-              if (active) {
-                active.classList.add("is-active");
-              }
+        const AT_TOP_THRESHOLD = 80;
+
+        const updateActiveNav = () => {
+          navAnchors.forEach((a) => a.classList.remove("is-active"));
+
+          if (window.scrollY < AT_TOP_THRESHOLD) {
+            if (homeAnchor) {
+              homeAnchor.classList.add("is-active");
             }
-          },
-          {
-            threshold: [0, 0.25, 0.5, 0.75, 1],
-            rootMargin: "-72px 0px 0px 0px"
+            return;
           }
+
+          let bestId = null;
+          let bestRatio = 0;
+          ratios.forEach((ratio, id) => {
+            if (ratio > bestRatio) {
+              bestRatio = ratio;
+              bestId = id;
+            }
+          });
+          if (bestId && bestRatio > 0) {
+            const active = navById.get(bestId);
+            if (active) {
+              active.classList.add("is-active");
+            }
+          }
+        };
+
+        if ("IntersectionObserver" in window) {
+          const navObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                ratios.set(entry.target.id, entry.intersectionRatio);
+              });
+              updateActiveNav();
+            },
+            {
+              threshold: [0, 0.25, 0.5, 0.75, 1],
+              rootMargin: "-72px 0px 0px 0px"
+            }
+          );
+          navSections.forEach((s) => navObserver.observe(s));
+        }
+
+        let scrollTickQueued = false;
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (scrollTickQueued) {
+              return;
+            }
+            scrollTickQueued = true;
+            window.requestAnimationFrame(() => {
+              scrollTickQueued = false;
+              updateActiveNav();
+            });
+          },
+          { passive: true }
         );
-        navSections.forEach((s) => navObserver.observe(s));
+
+        updateActiveNav();
       }
 
       if (reduceMotion) {
